@@ -1,0 +1,22 @@
+<div class="min-h-screen bg-gray-100 p-6">
+  <div class="max-w-3xl mx-auto bg-white shadow-lg rounded-lg p-6">
+    <h1 class="text-3xl font-bold text-gray-800 mb-4">All Posts</h1>
+    <p class="text-gray-600">Welcome to the posts page!</p>
+
+    <div class="mt-6">
+      <% @posts.each do |post| %>
+        <div class="bg-white p-4 mb-4 shadow rounded-lg">
+          <h2 class="text-xl font-semibold text-gray-700"><%= post.title %></h2>
+          <p class="text-gray-600 mt-2"><%= post.body.truncate(150) %></p>
+          <a href="<%= post_path(post) %>" class="text-blue-500 hover:underline mt-2 block">Read more</a>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="mt-6">
+      <a href="<%= new_post_path %>" class="bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600">
+        Create New Post
+      </a>
+    </div>
+  </div>
+</div>
