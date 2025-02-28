@@ -11,4 +11,22 @@ class User < ApplicationRecord
   validates :phone, presence: true, uniqueness: true, length: { in: 7..12 }
   validates :username, presence: true, uniqueness: true, length: { in: 3..20 }
   validates :birthday, presence: true
+
+  before_validation :normalize_title
+
+  after_destroy :remove_from_cache
+
+  scope :active, -> { where(active: true) }
+  scope :with_high_rated_posts, -> { joins(:posts).merge(Post.high_rated) }
+  scope :with_high_rated_comments, -> { joins(:comments).merge(Comment.high_rated) }
+
+  private
+
+  def normalize_title
+    self.title = title.strip.capitalize if title.present?
+  end
+
+  def remove_from_cache
+    Rails.cache.delete("user_#{id}")
+  end
 end
