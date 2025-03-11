@@ -49,14 +49,9 @@ gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
 
-# To precompile frontend tools
-gem 'webpacker'
+gem "jsbundling-rails", "~> 1.3"
 
-# TailwindCSS
-gem "tailwindcss-rails-webpacker", "~> 0.2.1"
-
-# Use Sass to process CSS (webpacker includes all functionality)
-# gem "sassc-rails"
+gem "tailwindcss-rails", "~> 4.2"
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
