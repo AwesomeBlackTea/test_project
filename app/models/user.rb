@@ -8,11 +8,9 @@ class User < ApplicationRecord
     with: /\A[^@\s]+@[^@\s]+\z/,
     message: 'must be valid email'
   }
-  validates :phone, presence: true, uniqueness: true, length: { in: 7..12 }
+  validates :phone, presence: true, uniqueness: true, length: { in: 7..20 }
   validates :username, presence: true, uniqueness: true, length: { in: 3..20 }
   validates :birthday, presence: true
-
-  before_validation :normalize_title
 
   after_destroy :remove_from_cache
 
@@ -21,10 +19,6 @@ class User < ApplicationRecord
   scope :with_high_rated_comments, -> { joins(:comments).merge(Comment.high_rated) }
 
   private
-
-  def normalize_title
-    self.title = title.strip.capitalize if title.present?
-  end
 
   def remove_from_cache
     Rails.cache.delete("user_#{id}")
