@@ -5,14 +5,24 @@
   </div>
 
   <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "space-y-6" }) do |f| %>
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "space-y-6", data: { controller: "registration-validation" } }) do |f| %>
       <%= render "devise/shared/error_messages", resource: resource %>
 
       <div>
         <%= f.label :email, class: "block text-sm font-medium leading-6 text-gray-900" %>
 
         <div class="mt-2">
-          <%= f.email_field :email, autofocus: true, autocomplete: "email", required: true, class: "block w-full rounded-md bg-white border border-gray-300 px-3 py-2 text-gray-900 shadow-sm placeholder-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 sm:text-sm" %>
+          <%= f.email_field :email,
+            autofocus: true,
+            autocomplete: "email",
+            required: true,
+            class: "block w-full rounded-md bg-white border border-gray-300 px-3 py-2 text-gray-900 shadow-sm placeholder-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 sm:text-sm",
+            data: {
+              action: "input->registration-validation#validate",
+              registration_validation_target: "email"
+            } %>
+
+          <span data-registration-validation-target="emailError" class="text-red-500 text-sm"></span>
         </div>
       </div>
 
@@ -29,7 +39,11 @@
               autocomplete: "new-password",
               required: true,
               class: "block w-full rounded-md bg-white border border-gray-300 px-3 py-2 text-gray-900 shadow-sm placeholder-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 sm:text-sm",
-              data: { password_visibility_target: "input" } %>
+              data: {
+                password_visibility_target: "input",
+                action: "input->registration-validation#validate",
+                registration_validation_target: "password"
+              } %>
 
             <button type="button"
               class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm text-indigo-600 hover:text-indigo-500 focus:outline-none"
@@ -38,6 +52,8 @@
               Show
             </button>
           </div>
+
+          <span data-registration-validation-target="passwordError" class="text-red-500 text-sm"></span>
         </div>
       </div>
 
@@ -50,7 +66,11 @@
               autocomplete: "new-password",
               required: true,
               class: "block w-full rounded-md bg-white border border-gray-300 px-3 py-2 text-gray-900 shadow-sm placeholder-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 sm:text-sm",
-              data: { password_visibility_target: "input" } %>
+              data: {
+                password_visibility_target: "input",
+                action: "input->registration-validation#validate",
+                registration_validation_target: "passwordConfirmation"
+              } %>
 
             <button type="button"
               class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm text-indigo-600 hover:text-indigo-500 focus:outline-none"
@@ -59,11 +79,97 @@
               Show
             </button>
           </div>
+
+          <span data-registration-validation-target="passwordConfirmationError" class="text-red-500 text-sm"></span>
         </div>
       </div>
 
       <div>
-        <%= f.submit "Sign up", class: "flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" %>
+        <%= f.label :username, class: "block text-sm font-medium leading-6 text-gray-900" %>
+
+        <div class="mt-2">
+          <%= f.text_field :username,
+            required: true,
+            autocomplete: "username",
+            class: "block w-full rounded-md bg-white border border-gray-300 px-3 py-2 text-gray-900 shadow-sm placeholder-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 sm:text-sm",
+            data: {
+              action: "input->registration-validation#validate",
+              registration_validation_target: "username"
+            } %>
+
+          <span data-registration-validation-target="usernameError" class="text-red-500 text-sm"></span>
+        </div>
+      </div>
+
+      <div>
+        <%= f.label :name, class: "block text-sm font-medium leading-6 text-gray-900" %>
+
+        <div class="mt-2">
+          <%= f.text_field :name,
+            required: true,
+            class: "block w-full rounded-md bg-white border border-gray-300 px-3 py-2 text-gray-900 shadow-sm placeholder-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 sm:text-sm",
+            data: {
+              action: "input->registration-validation#validate",
+              registration_validation_target: "name"
+            } %>
+
+          <span data-registration-validation-target="nameError" class="text-red-500 text-sm"></span>
+        </div>
+      </div>
+
+      <div>
+        <%= f.label :surname, class: "block text-sm font-medium leading-6 text-gray-900" %>
+
+        <div class="mt-2">
+          <%= f.text_field :surname,
+            required: true,
+            class: "block w-full rounded-md bg-white border border-gray-300 px-3 py-2 text-gray-900 shadow-sm placeholder-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 sm:text-sm",
+            data: {
+              action: "input->registration-validation#validate",
+              registration_validation_target: "surname"
+            } %>
+
+          <span data-registration-validation-target="surnameError" class="text-red-500 text-sm"></span>
+        </div>
+      </div>
+
+      <div>
+        <%= f.label :phone, class: "block text-sm font-medium leading-6 text-gray-900" %>
+
+        <div class="mt-2">
+          <%= f.telephone_field :phone,
+            required: true,
+            autocomplete: "tel",
+            class: "block w-full rounded-md bg-white border border-gray-300 px-3 py-2 text-gray-900 shadow-sm placeholder-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 sm:text-sm",
+            data: {
+              action: "input->registration-validation#validate",
+              registration_validation_target: "phone"
+            } %>
+
+          <span data-registration-validation-target="phoneError" class="text-red-500 text-sm"></span>
+        </div>
+      </div>
+
+      <div>
+        <%= f.label :birthday, class: "block text-sm font-medium leading-6 text-gray-900" %>
+
+        <div class="mt-2">
+          <%= f.date_field :birthday,
+            required: true,
+            class: "block w-full rounded-md bg-white border border-gray-300 px-3 py-2 text-gray-900 shadow-sm placeholder-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 sm:text-sm",
+            data: {
+              action: "input->registration-validation#validate",
+              registration_validation_target: "birthday"
+            } %>
+
+          <span data-registration-validation-target="birthdayError" class="text-red-500 text-sm"></span>
+        </div>
+      </div>
+
+      <div>
+        <%= f.submit "Sign up",
+          data: { action: "click->registration-validation#handleSubmit" },
+          class: "flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline" %>
       </div>
     <% end %>
 
