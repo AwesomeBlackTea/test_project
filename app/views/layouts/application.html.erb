@@ -16,8 +16,20 @@
 
       <div class="space-x-6">
         <% if user_signed_in? %>
-          <%= link_to "Sign out", destroy_user_session_path, method: :delete,
-                class: "hover:underline text-lg transition duration-300 hover:text-gray-200" %>
+          <div data-controller="dropdown" class="relative inline-block">
+            <button data-action="click->dropdown#toggle" class="focus:outline-none">
+              <img src="<%= image_path('avatar_default.png') %>"
+                  alt="Profile"
+                  class="w-10 h-10 rounded-full border-2 border-white shadow cursor-pointer">
+            </button>
+
+            <div data-dropdown-target="menu"
+                class="absolute right-0 mt-2 w-48 bg-white text-gray-800 rounded-lg shadow-lg hidden z-50">
+              <%= link_to "Profile", destroy_user_session_path, class: "block px-4 py-2 hover:bg-gray-100 transition" %>
+              <%= link_to "Settings", edit_user_registration_path, class: "block px-4 py-2 hover:bg-gray-100 transition" %>
+              <%= link_to "Sign out", destroy_user_session_path, method: :delete, class: "block px-4 py-2 hover:bg-gray-100 transition" %>
+            </div>
+          </div>
         <% else %>
           <%= link_to "Sign in", new_user_session_path,
                 class: "hover:underline text-lg transition duration-300 hover:text-gray-200" %>
