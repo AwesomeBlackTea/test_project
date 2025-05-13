@@ -1,0 +1,8 @@
+Welcome, <%= @user.name.presence || @user.username.presence || @user.email %>!
+
+Thank you for signing up. We're excited to have you on board.
+
+You can log in to your account and start exploring right away:
+<%= Rails.application.routes.url_helpers.new_user_session_url(host: 'localhost:3000') %>
+
+If you have any questions, just reply to this email — we’re always happy to help.

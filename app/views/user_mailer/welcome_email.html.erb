@@ -1,0 +1,19 @@
+<div class="bg-white p-6 rounded-lg shadow-lg max-w-md mx-auto">
+  <p class="text-lg font-semibold text-gray-900">Welcome, <%= @user.name.presence || @user.username.presence || @user.email %>!</p>
+
+  <p class="mt-4 text-gray-700">
+    Thank you for signing up. We're excited to have you on board.
+  </p>
+
+  <p class="mt-4 text-gray-700">
+    You can log in to your account and start exploring right away.
+  </p>
+
+  <p class="mt-4">
+    <%= link_to 'Go to Sign in', Rails.application.routes.url_helpers.new_user_session_url(host: 'localhost:3000'), class: "inline-block text-indigo-600 font-semibold hover:text-indigo-500" %>
+  </p>
+
+  <p class="mt-4 text-sm text-gray-500">
+    If you have any questions, just reply to this email — we’re always happy to help.
+  </p>
+</div>

@@ -11,6 +11,8 @@ class User < ApplicationRecord
   validates :username, presence: true, uniqueness: true, length: { in: 3..20 }
   validates :birthday, presence: true
 
+  after_create_commit :send_welcome_email
+
   after_destroy :remove_from_cache
 
   scope :active, -> { where(active: true) }
@@ -18,6 +20,10 @@ class User < ApplicationRecord
   scope :with_high_rated_comments, -> { joins(:comments).merge(Comment.high_rated) }
 
   private
+
+  def send_welcome_email
+    UserMailer.welcome_email(self).deliver_later
+  end
 
   def remove_from_cache
     Rails.cache.delete("user_#{id}")
