@@ -11,7 +11,8 @@
     bio: Faker::Lorem.sentence(word_count: 50),
     birthday: Faker::Date.birthday(min_age: 10, max_age: 65),
     password: password,
-    password_confirmation: password
+    password_confirmation: password,
+    confirmed_at: Time.current
   )
 end
 

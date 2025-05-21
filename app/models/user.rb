@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable
+  # :lockable, :timeoutable, :trackable and :omniauthable
+  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable, :confirmable
   has_many :posts
   has_many :comments
 
@@ -11,7 +11,7 @@ class User < ApplicationRecord
   validates :username, presence: true, uniqueness: true, length: { in: 3..20 }
   validates :birthday, presence: true
 
-  after_create_commit :send_welcome_email
+  # after_create_commit :send_welcome_email
 
   after_destroy :remove_from_cache
 
@@ -21,9 +21,9 @@ class User < ApplicationRecord
 
   private
 
-  def send_welcome_email
-    UserMailer.welcome_email(self).deliver_later
-  end
+  # def send_welcome_email
+  #   UserMailer.welcome_email(self).deliver_later
+  # end
 
   def remove_from_cache
     Rails.cache.delete("user_#{id}")
